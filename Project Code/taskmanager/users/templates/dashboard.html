@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard - Task Management Tool</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        <style>
+            body {
+                background-color: #f0f0f0;
+            }
+            .card {
+                background-color: white;
+                border-radius: 20px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+                padding: 15px;
+                height: 80%; /* Ensure all cards in the first row have the same height */
+            }
+            main .container {
+                background-color: white;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+            }
+            header, footer {
+                background: linear-gradient(to right, #3060a0, #70c8a0);
+            }
+            header {
+                border-radius: 0px 0px 20px 20px;
+            }
+            footer {
+                border-radius: 20px 20px 0px 0px;
+            }
+            .progress-bar {
+                background: linear-gradient(to right, #C33764, #1D2671); /* Red purplish gradient */
+            }
+            nav a {
+                text-decoration: none;
+            }
+            nav a:hover {
+                text-decoration: underline;
+            }
+            .notify:hover {
+                color: #3060a0;
+            }
+            .icon-button {
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 50px;
+                height: 50px;
+                color: #fff;
+                border: none;
+                outline: none;
+                border-radius: 50%;
+            }
+            .icon-button:hover {
+                cursor: pointer;
+            }
+            .icon-button__badge {
+                position: absolute;
+                top: 5px;
+                right: 8px;
+                width: 15px;
+                height: 15px;
+                background: red;
+                color: #ffffff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 50%;
+                font-size: 10px;
+            }
+            .nav-item {
+                display: flex;
+                align-items: center;
+            }
+            .notification-panel {
+                display: none;
+                position: absolute;
+                top: 38px;
+                right: 20px;
+                width: 800%;
+                height: 1000%;
+                background-color: white;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+                overflow-y: auto;
+                z-index: 1000;
+            }
+            .notification-panel ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+            }
+            .notification-panel li {
+                color: black;
+                padding: 10px;
+                border-bottom: 1px solid #ccc;
+            }
+            .notification-panel li:hover {
+                cursor: pointer;
+                background-color: #3060a0;
+            }
+            .notification-panel li.unread {
+                background-color: #e6f7ff;
+            }
+            .notification-panel li.read {
+                background-color: #f0f0f0;
+            }
+            .notification-panel li:last-child {
+                border-bottom: none;
+            }
+            .icon-button:hover .notification-panel {
+                display: block;
+            }
+        </style>
+    </head>
+    <body class="d-flex flex-column min-vh-100">
+        <header class="bg-dark text-white py-3">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h1>TaskManager</h1>
+                    <nav class="nav-item">
+                        <a href="../" class="text-white mx-2">Home</a>
+                        <a href="../tasks" class="text-white mx-2">Tasks</a>
+                        <a href="../profile" class="text-white mx-2">Profile</a>
+                        <a href="#" onclick="logoutUser()" class="text-white mx-2">Logout</a>
+                        <a class="text-white icon-button">
+                            <div>
+                                <span class="material-icons notify">notifications</span>
+                                <span class="icon-button__badge">2</span>
+                                <div class="notification-panel">
+                                    <ul>
+                                        <li class="unread">Unread Notification 1</li>
+                                        <li class="unread">Unread Notification 2</li>
+                                        <li class="read">Read Notification 1</li>
+                                        <li class="read">Read Notification 2</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mt-5">
+            <h2>Dashboard</h2>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Project Progress</h5>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Tasks Overview</h5>
+                            <p class="card-text">Completed: 20, Pending: 5, In Progress: 10</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Team Performance</h5>
+                            <p class="card-text-monthly-goal">Monthly goal: 80% achieved</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Latest Report</h5>
+                            <p id="reportContent">No report available.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="bg-dark text-white py-3 mt-auto">
+            <div class="container text-center">
+                <p>Copyright © 2023 Task Management Tool. All rights reserved.</p>
+                <p>Privacy Policy | Terms of Service | Help</p>
+            </div>
+        </footer>
+
+        <script>
+            function logoutUser() {
+                fetch('/api/logout/', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Token ' + localStorage.getItem('authToken'),  // Assuming the token is stored in localStorage
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        localStorage.removeItem('authToken'); // Clear the token from local storage
+                        window.location.href = '/app/login/'; // Redirect to the login page
+                    } else {
+                        alert('Failed to logout. Please try again.');
+                    }
+                }).catch(error => console.error('Error:', error));
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                fetchReport();
+                const token = localStorage.getItem('authToken'); // Get the stored token
+                if (!token) {
+                    // alert("No Token!");
+                    alert("User not logged in!");
+                    // If no token, redirect to login
+                    window.location.href = '/app/login/';
+                    return;
+                }
+
+                console.log("Token: ", token);
+
+                // alert("Found Token!");
+
+                fetch('/api/dashboard/', {
+                    headers: {
+                        'Authorization': 'Token ' + token, // Adjust based on how you store the token
+                    }
+                })
+                .then(response => {
+                    console.log("Dash server response: ", response);
+                    // alert("Wait!")
+                    if (!response.ok) {
+                        if (response.status === 401 || response.status === 403) {
+                            // Redirect to login page
+                            window.location.href = '/app/login/';
+                            return;
+                        }
+                        throw new Error('Network response was not ok');
+                    }
+
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data); // Log the data for debugging
+                    let progress = ((data.completed_tasks / data.total_tasks * 100)+((data.in_progress_tasks / data.total_tasks * 100)/2));
+                    let monthlyGoal = (data.completed_tasks / data.total_tasks * 100);
+                    // Update the DOM elements with the data received
+                    document.querySelector('.progress-bar').style.width = `${progress.toPrecision(4)}%`;
+                    document.querySelector('.progress-bar').setAttribute('aria-valuenow', data.in_progress_tasks);
+                    document.querySelector('.progress-bar').innerHTML = `${progress.toPrecision(4)}%`;
+                    document.querySelectorAll('.card-text')[0].textContent = `Completed: ${data.completed_tasks}, Pending: ${data.pending_tasks}, In Progress: ${data.in_progress_tasks}`;
+                    document.querySelectorAll('.card-text-monthly-goal')[0].textContent = `Monthly goal: ${monthlyGoal.toPrecision(2)}% achieved`;
+                })
+                .catch(error => console.error('Error loading dashboard data:', error));
+            });
+
+            function fetchReport() {
+                const apiUrl = '/api/reports/';
+                fetch(apiUrl, {
+                    headers: {
+                        'Authorization': 'Token ' + localStorage.getItem('authToken'),
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data) {
+                        const date = new Date(data.created_at);
+
+                        // Format the date and time in a human-readable form
+                        const formattedDate = date.toLocaleDateString('en-US', {
+                            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                        });
+                        const formattedTime = date.toLocaleTimeString('en-US', {
+                            hour: '2-digit', minute: '2-digit'
+                        });
+
+                        const reportElement = document.getElementById('reportContent');
+                        reportElement.innerHTML = `<b>Report generated on:</b> ${formattedDate} at ${formattedTime}\n<br/>` +
+                                                    `<b>Total Tasks:</b> ${data.data.total_tasks}\n` +
+                                                    `<b>Completed:</b> ${data.data.completed_tasks}\n` +
+                                                    `<b>Pending:</b> ${data.data.pending_tasks}\n` +
+                                                    `<b>In Progress:</b> ${data.data.in_progress_tasks}`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching report:', error);
+                    document.getElementById('reportContent').textContent = 'Failed to load report.';
+                });
+            }
+        </script>
+
+        <script src="js/dashboard.js"></script>
+    </body>
+</html>
